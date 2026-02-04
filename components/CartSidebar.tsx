@@ -49,14 +49,29 @@ const CartSidebar: React.FC<CartSidebarProps> = ({
               <button onClick={onClose} className="text-emerald-400 font-black text-sm uppercase tracking-widest hover:text-white transition-colors">{t.startShopping}</button>
             </div>
           ) : (
-            items.map((item) => (
-              <div key={item.id} className="flex gap-8 p-6 rounded-[2.5rem] hover:bg-white/5 transition-all border border-white/5 group relative overflow-hidden">
+            items.map((item, index) => (
+              <div key={`${item.id}-${item.selectedColor}-${item.selectedSize}-${index}`} className="flex gap-8 p-6 rounded-[2.5rem] hover:bg-white/5 transition-all border border-white/5 group relative overflow-hidden">
                 <div className="relative w-28 h-28 flex-shrink-0">
                   <img src={item.image} alt={lang === 'ar' ? item.nameAr : item.nameEn} className="w-full h-full object-cover rounded-[1.8rem] shadow-2xl border border-white/10" />
                 </div>
                 <div className="flex-1 flex flex-col justify-between py-1">
                   <div>
-                    <h3 className="font-black text-white text-lg mb-2 line-clamp-1 tracking-tight">{lang === 'ar' ? item.nameAr : item.nameEn}</h3>
+                    <h3 className="font-black text-white text-lg mb-1 line-clamp-1 tracking-tight">{lang === 'ar' ? item.nameAr : item.nameEn}</h3>
+                    
+                    {/* عرض الخيارات المختارة */}
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {item.selectedColor && (
+                        <span className="bg-white/10 px-3 py-1 rounded-lg text-[9px] font-black text-white/60 border border-white/5">
+                          {t.selectColor}: {item.selectedColor}
+                        </span>
+                      )}
+                      {item.selectedSize && (
+                        <span className="bg-white/10 px-3 py-1 rounded-lg text-[9px] font-black text-white/60 border border-white/5">
+                          {t.selectSize}: {item.selectedSize}
+                        </span>
+                      )}
+                    </div>
+                    
                     <p className="text-emerald-400 font-black text-xl">{item.price} <span className="text-xs text-white/30">{t.egp}</span></p>
                   </div>
                   <div className="flex items-center justify-between mt-6">
@@ -65,7 +80,9 @@ const CartSidebar: React.FC<CartSidebarProps> = ({
                       <span className="w-10 text-center font-black text-sm text-white">{item.quantity}</span>
                       <button onClick={() => onUpdateQty(item.id, 1)} className="w-10 h-10 flex items-center justify-center font-black text-white hover:text-emerald-400 text-xl">+</button>
                     </div>
-                    <button onClick={() => onRemove(item.id)} className="p-3 glass-button rounded-xl text-red-400 hover:bg-red-500 hover:text-white"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>
+                    <button onClick={() => onRemove(item.id)} className="p-3 glass-button rounded-xl text-red-400 hover:bg-red-500 hover:text-white transition-colors">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    </button>
                   </div>
                 </div>
               </div>
